@@ -1,0 +1,76 @@
+<?php
+
+namespace HealthStats;
+
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+use pocketmine\event\Listener;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\player\PlayerJoinEvent;
+// use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\Player;
+use pocketmine\plugin\PluginBase;
+class HealthStats extends PluginBase implements Listener{
+		
+	public function onEnable(){ 
+		$this->getLogger()->info("Plugin is now loading...");
+		$this->isEnabled = true;
+		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		$this->getLogger()->info("Loaded!");
+	}
+
+	public function onDisable(){
+		$this->getLogger()->info("Plugin has been disabled");
+	}
+	public function onJoin(PlayerJoinEvent $event){
+		$player = $event->getPlayer();
+		
+		$this->renderNametag($player);
+	}
+
+	public function renderNameTag($player){
+		$username = $player->getName();
+		
+		if($this->isEnabled){
+			$player->setNameTag($player->getName()." ".$player->getHealth()."/".$player->getMaxHealth().""); // When we will be able to, add "♥" :-)
+		}else{
+			$player->setNameTag($player->getname());
+		}
+	}
+	
+	public function onCommand(CommandSender $sender, Command $command, $label, array $args){
+		$username = $sender->getName();
+		switch($command->getName()){
+			case "hs":
+				if($sender->isOp()){
+					if($this->isEnabled !== false){
+						$this->getServer()->broadcastMessage("[HealthStats] ".$username." has switch health stats off!");
+						$this->isEnabled = false;
+					}else{
+						$this->isEnabled = true;
+						$this->getServer()->broadcastMessage("[HealthStats] ".$username." has switch health stats on!");
+					}
+					foreach($this->getServer()->getOnlinePlayers() as $player){
+						$this->renderNameTag($player);
+					}
+					return true;
+				}else{
+					$sender->sendMessage("You don't have permission to use this command");
+				}
+			break;
+		}
+	}
+	
+	public function onEntityDamage(EntityDamageEvent $event){
+		$entity = $event->getEntity();
+		if($entity instanceof Player){
+			$player = $entity->getPlayer();
+			$this->renderNameTag($player);
+		}
+	}
+	
+	public function onEntityDamageByEntity(EntityDamageByEntityEvent $event){
+		$this->onEntityDamage($event);
+	}
+}
