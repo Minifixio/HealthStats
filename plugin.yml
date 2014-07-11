@@ -1,0 +1,11 @@
+name: HealthStats
+version: 1.0.0
+api: [1.0.0]
+author: Striker209_MPE
+description: A plugin that display players' health in their NameTag !
+main: HealthStats\HealthStats
+
+commands:
+ hs:
+  description: "Enable or disable health stats"
+  usage: "/hs"
