@@ -35,7 +35,7 @@ class HealthStats extends PluginBase implements Listener{
 		if($this->isEnabled){
 			$player->setNameTag($player->getName()." ".$player->getHealth()."/".$player->getMaxHealth().""); // When we will be able to, add "♥" :-)
 		}else{
-			$player->setNameTag($player->getname());
+			$player->setNameTag($player->getName());
 		}
 	}
 	
