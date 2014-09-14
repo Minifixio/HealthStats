@@ -8,7 +8,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\player\PlayerJoinEvent;
-// use pocketmine\event\entity\EntityRegainHealthEvent;
+use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 class HealthStats extends PluginBase implements Listener{
