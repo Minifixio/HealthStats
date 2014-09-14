@@ -8,7 +8,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\player\PlayerJoinEvent;
-// use pocketmine\event\player\PlayerQuitEvent;
+// use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 class HealthStats extends PluginBase implements Listener{
@@ -54,10 +54,10 @@ class HealthStats extends PluginBase implements Listener{
 					foreach($this->getServer()->getOnlinePlayers() as $player){
 						$this->renderNameTag($player);
 					}
-					return true;
 				}else{
 					$sender->sendMessage("You don't have permission to use this command");
 				}
+				return true;
 			break;
 		}
 	}
@@ -70,7 +70,7 @@ class HealthStats extends PluginBase implements Listener{
 		}
 	}
 	
-	public function onEntityDamageByEntity(EntityDamageByEntityEvent $event){
-		$this->onEntityDamage($event);
+	public function onEntityRegainHealth(EntityRegainHealthEvent $event){
+		$this->renderNameTag($player);
 	}
 }
