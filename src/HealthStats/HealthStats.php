@@ -71,6 +71,10 @@ class HealthStats extends PluginBase implements Listener{
 	}
 	
 	public function onEntityRegainHealth(EntityRegainHealthEvent $event){
-		$this->renderNameTag($player);
+		$entity = $event->getEntity();
+		if($entity instanceof Player){
+			$player = $entity->getPlayer();
+			$this->renderNameTag($player);
+		}
 	}
 }
